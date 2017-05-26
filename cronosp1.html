@@ -1,0 +1,126 @@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js">
+</script>
+<script type="text/javascript" src="http://sean1093.github.io/lib/js/timeSolver/1.0.6/timeSolver.min.js"></script>
+
+
+<script>
+
+
+
+$( document ).ready(function() {
+
+  var isSaveButtonPage = $("section").find(".fa-save");
+  const startTime = "8:30 AM";
+  const endTime = "4:00 PM";
+  const startTimeTime = Date.parse("Jul 8, 2005, "+startTime);
+  const endTimeTime = Date.parse("Jul 8, 2005, "+endTime);
+
+
+  var results = [];
+  $("table").first().children("tbody").children("tr").each(function(index, object){
+
+      const timeString = $(this).find("span[data-ng-bind$='vm.getSiteDateTime($row) | date : \\'shortTime\\''").html();
+      const studyName = $(this).find("span[data-ng-bind$='row.study'").html();
+      const visitType = $(this).find("span[data-ng-bind^='vm.getValue($row.studyId,\\'Visit\\''").html();
+
+
+
+      if(studyName) {
+        const time = Date.parse("Jul 8, 2005, "+timeString);
+        console.log(timeSolver.getString(time, "HH:MM:SS"));
+
+        const insideTimeframe = (timeSolver.after(time, startTimeTime, "min") &&  timeSolver.before(time, endTimeTime, "min"))
+
+        const blockedStuby = ( (studyName.includes("ESKET") && visitType.includes("Scrn 1")) || studyName.includes("CNTO") );
+        if (!blockedStuby && insideTimeframe == true) {
+
+          results.push( $(this));
+        }
+
+      }
+
+
+
+
+  });
+
+  const selectedStudy = results[0];
+  console.log(selectedStudy);
+  console.log(selectedStudy.children("td:last a"));
+
+
+});
+
+</script>
+
+<section>
+
+<command-button class="fa-save">
+
+</command-button>
+</section>
+
+
+       <tr>           <td class="row-header-block">               <div class="content-container">               </div>           </td>           <td class="content-block">               <div class="content-container">               <table class="table-grid table-grid-bordered table-grid-striped table-grid-hover">   <colgroup><col><col><col><col><col><col><col><col></colgroup> <thead>
+
+         <tr>
+
+
+
+
+
+
+
+
+                <th label="Study" sort-field="StudyId" sortfield="StudyId" class="sortable ng-binding">Study</th><th label="Site" sort-field="Site" sortfield="Site" class="sortable ng-binding">Site</th><th label="Subject" sort-field="SubjectId" sortfield="SubjectId" class="sortable ng-binding">Subject</th><th label="Visit" sort-field="Name" sortfield="Name" class="sortable ng-binding">Visit</th><th label="Language" sort-field="Language" sortfield="Language" class="sortable ng-binding">Language</th><th label="My Time" sort-field="DateTime" sortfield="DateTime" class="sortable ng-binding">My Time</th><th label="Site Date" sort-field="DateTime" sortfield="DateTime" class="sortable ng-binding">Site Date</th><th label="Action" class="ng-binding">Action</th></tr></thead> <tbody><!-- ngRepeat: $row in vm.requests -->
+
+
+                  <tr ng-repeat="$row in vm.requests" class="ng-scope">
+
+                <td>
+                        <span data-ng-bind="$row.study" class="ng-binding">ESKETINTRD300x</span>
+                    </td><td>
+                        <span data-ng-bind="$row.site" class="ng-binding">A52-PL10008</span>
+                    </td><td>
+                        <span data-ng-bind="$row.subject" class="ng-binding">30480801</span>
+                    </td><td>
+                        <span data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)" class="ng-binding">2.3, Day 8</span>
+                    </td><td>
+                        <span data-ng-bind="vm.getLabelValue($row.language)" class="ng-binding">Polish</span>
+                    </td><td>
+                        <span data-ng-bind="$row.dateTime | date: 'd MMM yyyy'" class="ng-binding">24 May 2017</span>&nbsp;<span data-ng-bind="$row.dateTime | date : 'shortTime'" class="ng-binding">9:30 AM</span>&nbsp;<i ng-show="vm.isPastDue($row.dateTime)" class="fa fa-exclamation ng-hide" style="color: red;"></i>
+                    </td><td>
+                        <span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">24 May 2017</span>&nbsp;<span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" class="ng-binding">9:30 AM</span>
+                    </td><td>
+                        <a href="#" ng-click="vm.commands.startVisit.execute($row.id, $event)" class="ng-scope"><span class="ng-binding">Accept</span></a>
+                    </td>
+
+                  </tr>
+
+
+                  <tr ng-repeat="$row in vm.requests" class="ng-scope">
+
+                <td>
+                        <span data-ng-bind="$row.study" class="ng-binding">ESKETINTRD300x</span>
+                    </td><td>
+                        <span data-ng-bind="$row.site" class="ng-binding">A52-PL10008</span>
+                    </td><td>
+                        <span data-ng-bind="$row.subject" class="ng-binding">30480801</span>
+                    </td><td>
+                        <span data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)" class="ng-binding">Scrn 1</span>
+                    </td><td>
+                        <span data-ng-bind="vm.getLabelValue($row.language)" class="ng-binding">Polish</span>
+                    </td><td>
+                        <span data-ng-bind="$row.dateTime | date: 'd MMM yyyy'" class="ng-binding">24 May 2017</span>&nbsp;<span data-ng-bind="$row.dateTime | date : 'shortTime'" class="ng-binding">9:30 AM</span>&nbsp;<i ng-show="vm.isPastDue($row.dateTime)" class="fa fa-exclamation ng-hide" style="color: red;"></i>
+                    </td><td>
+                        <span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">24 May 2017</span>&nbsp;<span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" class="ng-binding">9:30 AM</span>
+                    </td><td>
+                        <a href="#" ng-click="vm.commands.startVisit.execute($row.id, $event)" class="ng-scope"><span class="ng-binding">Accept</span></a>
+                    </td>
+
+                  </tr>
+
+
+
+                  <!-- end ngRepeat: $row in vm.requests --></tbody></table></div>           </td>           <td class="row-tail-block">               <div class="content-container">               </div>           </td>           <td class="y-scroll-block"></td>       </tr>       <!-- ngIf: vm.requests.length === 0 && true -->
