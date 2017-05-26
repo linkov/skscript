@@ -147,18 +147,20 @@ page.onLoadFinished = function(){
                             var results = [];
 
 
-                            $("#myrequests-list table tbody tr").each(function(index, object){
+                            $("#myrequests-list table tbody tr[ng-repeat$='vm.requests']").each(function(index, object){
 
                                 const timeString = $(this).find("span[data-ng-bind$='vm.getSiteDateTime($row) | date : \\'shortTime\\''").html();
                                 const studyName = $(this).find("span[data-ng-bind$='row.study'").html();
                                 const visitType = $(this).find("span[data-ng-bind^='vm.getValue($row.studyId,\\'Visit\\''").html();
-                                console.log(studyName);
-                                console.log(visitType);
-                                console.log(timeString);
-                                console.log("------");
+
 
 
                                 if(studyName) {
+                                  console.log(studyName);
+                                  console.log(visitType);
+                                  console.log(timeString);
+                                  console.log("------");
+                                  
                                   const time = Date.parse("Jul 8, 2005, "+timeString);
 
                                   const insideTimeframe = (timeSolver.after(time, startTimeTime, "min") &&  timeSolver.before(time, endTimeTime, "min"))
