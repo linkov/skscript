@@ -1,4 +1,4 @@
-
+<!-- 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js">
 </script>
 <script type="text/javascript" src="http://sean1093.github.io/lib/js/timeSolver/1.0.6/timeSolver.min.js"></script>
@@ -60,9 +60,11 @@ $( document ).ready(function() {
 
 });
 
-</script>
+</script> -->
 
-<section>
+<head>
+  <title>p1</title>
+</head>
 
   <body ng-controller="ctrlr" class="ng-scope">
       <header class="app-header">
@@ -315,7 +317,7 @@ $( document ).ready(function() {
                       </td><td>
                           <span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">29 May 2017</span>&nbsp;<span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" class="ng-binding">10:00 AM</span>
                       </td><td>
-                          <a href="#" ng-click="vm.commands.startVisit.execute($row.id, $event)" class="ng-scope"><span class="ng-binding">Accept</span></a>
+                          <a href="file:///Users/linkov/Documents/sdwr/skscript/cronospage2.html" ng-click="vm.commands.startVisit.execute($row.id, $event)" class="ng-scope"><span class="ng-binding">Accept</span></a>
                       </td></tr><!-- end ngRepeat: $row in vm.requests --></tbody></table></div>           </td>           <td class="row-tail-block">               <div class="content-container">               </div>           </td>           <td class="y-scroll-block"></td>       </tr>       <!-- ngIf: vm.requests.length === 0 && true -->   </tbody>   <tfoot>       <tr>           <td class="footer-content-block" colspan="4" style="display: table-cell;">
                   </td>       </tr>       <tr>           <td class="bottomleft-offset-block"></td>           <td class="x-scroll-block">               <div class="x-scroll-container" style="display: none;">                  <div class="x-scroll"></div>               </div>           </td>            <td class="bottomright-offset-block" colspan="2"></td>       </tr>       <tr>           <td class="paging-content-block" colspan="4"><div fwk-pagination="" total-items="vm.pendingRequestPaging.totalItems" current-page="vm.pendingRequestPaging.currentPage" page-size="vm.pendingRequestPaging.pageSize" num-pages="vm.pendingRequestPaging.numPages" on-page-select="vm.execPendingRequestPaging(columns, page)" class="ng-isolate-scope"><div class="pagination">   <div class="pagination-first disabled" ng-class="{disabled:currentPage <= 1}"></div>   <div class="pagination-prev disabled" ng-class="{disabled:currentPage <= 1}"></div>   <div class="pagination-page">       <input type="text" class="pagination-page" ng-attr-value="Page {{currentPage}} of {{numPages}}" value="Page 1 of 1">   </div>   <div class="pagination-last disabled" ng-class="{disabled:currentPage == numPages}"></div>   <div class="pagination-next disabled" ng-class="{disabled:currentPage == numPages}"></div></div></div></td>        </tr>   </tfoot></table></div>
           </div>

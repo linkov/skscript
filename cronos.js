@@ -80,7 +80,7 @@ page.onLoadFinished = function(){
 
 
 	if(page.title == "Log In"){
-    console.log("in Cronos Login");
+    console.log("/********* Logging in *********************/");
     page.includeJs("http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js", function() {
       page.evaluate(function() {
         document.getElementById("MainContent_LoginUser_Password").value="Welcome123!";
@@ -94,7 +94,7 @@ page.onLoadFinished = function(){
 
 	}
 	else if (page.title == "Cronos Library") {
-    console.log("in Cronos Library");
+    console.log("/********* Cronos Library *********************/");
     page.includeJs("http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js", function() {
       page.evaluate(function() {
         $("#img1").click();
@@ -106,110 +106,120 @@ page.onLoadFinished = function(){
 
   } else if (page.title == "CRONOS CIRP - 2.9.7.5") {
 
+    console.log("/********* CRONOS CIRP *********************/");
+
     if (page.url == "https://cirp.cronosccs.com/Rater/Setup") {
 
 
-        console.log("in CRONOS CIRP - 2.9.7.5 INSIDE");
-
+        console.log("/********* Rater/Setup *********************/");
         page.includeJs("http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js", function() {
-          if (page.injectJs('timeResolver.js')) {
+
+            if (page.injectJs('timeResolver.js')) {
+
+              waitFor(function() {
+                    // Check if page loaded
+                    return page.evaluate(function() {
+                        return $("h3").html() == "Accepted Visits" || $("section").find(".fa-save").length > 0;
+                    });
+                }, function() {
 
 
-                  waitFor(function() {
-                        // Check if page loaded
-                        return page.evaluate(function() {
-                            return $("h3").html() == "Accepted Visits" || $("section").find(".fa-save").length > 0;
-                        });
-                    }, function() {
+                   page.evaluate(function(start,end) {
+                     const saveButton = $("section").find(".fa-save");
+                     const isSaveButtonPage = (saveButton.length > 0);
+                     var noRecords = $("h3").last().siblings("div").first().children("table").first().children("tbody").children("tr").last().children("td").children("div").hasClass("empty-set-message");
 
 
-                       page.evaluate(function(start,end) {
-                         const saveButton = $("section").find(".fa-save");
-                         const isSaveButtonPage = (saveButton.length > 0);
-                         var noRecords = $("h3").last().siblings("div").first().children("table").first().children("tbody").children("tr").last().children("td").children("div").hasClass("empty-set-message");
+                     if (noRecords && !isSaveButtonPage) {
 
+                       console.log(" -= No records, reloading in 2 sec =-");
+                       setTimeout(function(){
+                        location.reload();
+                      },2200);
 
-                         if (noRecords && !isSaveButtonPage) {
-
-                           console.log("no records, reloading in 2 sec");
-                           setTimeout(function(){
-                            location.reload();
-                          },2200);
-
-                        } else {
-
-                          if(!isSaveButtonPage) {
-
-                            const startTimeTime = Date.parse("Jul 8, 2005, "+start);
-                            const endTimeTime = Date.parse("Jul 8, 2005, "+end);
-
-
-                            var results = [];
-
-
-                            $("#myrequests-list table tbody tr[ng-repeat$='vm.requests']").each(function(index, object){
-
-                                const timeString = $(this).find("span[data-ng-bind$='vm.getSiteDateTime($row) | date : \\'shortTime\\''").html();
-                                const studyName = $(this).find("span[data-ng-bind$='row.study'").html();
-                                const visitType = $(this).find("span[data-ng-bind^='vm.getValue($row.studyId,\\'Visit\\''").html();
+                    } else {
 
 
 
-                                if(studyName) {
-                                  console.log(studyName);
-                                  console.log(visitType);
-                                  console.log(timeString);
-                                  console.log("------");
-                                  
-                                  const time = Date.parse("Jul 8, 2005, "+timeString);
+                      if(!isSaveButtonPage) {
+                        console.log("/********* All Studies *********************/");
+                        const startTimeTime = Date.parse("Jul 8, 2005, "+start);
+                        const endTimeTime = Date.parse("Jul 8, 2005, "+end);
 
-                                  const insideTimeframe = (timeSolver.after(time, startTimeTime, "min") &&  timeSolver.before(time, endTimeTime, "min"))
 
-                                  const blockedStuby = ( (studyName.includes("ESKET") && visitType.includes("Scrn 1")) || studyName.includes("CNTO") );
-                                  if (!blockedStuby && insideTimeframe == true) {
+                        var results = [];
 
-                                    results.push( $(this));
-                                  }
 
-                                }
+                        $("#myrequests-list table tbody tr[ng-repeat$='vm.requests']").each(function(index, object){
+
+                            const timeString = $(object).find("span[data-ng-bind*='shortTime']").html();
+                            const studyName = $(object).find("span[data-ng-bind$='row.study']").html();
+                            const visitType = $(object).find("span[data-ng-bind*='Visit']").html();
 
 
 
+                            if(studyName) {
+                              console.log("/********* Study *********************/");
+                              console.log(studyName);
+                              console.log(visitType);
+                              console.log(timeString);
+                              console.log("/********* --------- *********************/");
 
-                            });
+                              const time = Date.parse("Jul 8, 2005, "+timeString);
 
-                            if (results.length > 0) {
-                              const selectedStudy = results[0];
-                              console.log("Selected Study: "+selectedStudy.html());
-                              selectedStudy.find('a[ng-click^="vm.commands.startVisit"]')[0].click();
+                              const insideTimeframe = (timeSolver.after(time, startTimeTime, "min") &&  timeSolver.before(time, endTimeTime, "min"))
+
+                              const blockedStuby = ( ((studyName.search("ESKET") !=-1 && visitType.search("Scrn 1")) != -1 ) || studyName.search("CNTO") !=-1 );
+                              if (!blockedStuby && insideTimeframe == true) {
+
+                                results.push( $(this));
+                              }
+
                             }
 
 
 
 
-                          } else {
-                            console.log("SAVE PAGE");
-                            saveButton[0].click();
+                        });
 
+                        if (results.length > 0) {
+                          const selectedStudy = results[0];
+                          console.log("/********* Filtered Study *********************/");
+                          const timeString = $(selectedStudy).find("span[data-ng-bind*='shortTime']").html();
+                          const studyName = $(selectedStudy).find("span[data-ng-bind$='row.study']").html();
+                          const visitType = $(selectedStudy).find("span[data-ng-bind*='Visit']").html();
+                          console.log(studyName);
+                          console.log(visitType);
+                          console.log(timeString);
 
-                          }
-
-
-
-
-
-                          }
-
-
-                        },startTimeString,endTimeString);
-
-
-                      });
-                    }
+                          selectedStudy.find('a[ng-click^="vm.commands.startVisit"]')[0].click();
+                        }
 
 
 
-            });
+
+                      } else {
+                        console.log("/********* Saving Item *********************/");
+                        saveButton[0].click();
+
+
+                      }
+
+
+
+
+
+                      }
+
+
+                    },startTimeString,endTimeString);
+
+
+                  });
+
+              // phantom.exit();
+            }
+          });
 
 
 

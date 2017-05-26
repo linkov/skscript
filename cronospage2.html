@@ -1,63 +1,11 @@
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js">
-</script>
-<script type="text/javascript" src="http://sean1093.github.io/lib/js/timeSolver/1.0.6/timeSolver.min.js"></script>
-
-
-<script>
-
-
-
-$( document ).ready(function() {
-
-  var isSaveButtonPage = $("section").find(".fa-save");
-  const startTime = "8:30 AM";
-  const endTime = "4:00 PM";
-  const startTimeTime = Date.parse("Jul 8, 2005, "+startTime);
-  const endTimeTime = Date.parse("Jul 8, 2005, "+endTime);
-
-
-  var results = [];
-  $("table").first().children("tbody").children("tr").each(function(index, object){
-
-      const timeString = $(this).find("span[data-ng-bind$='vm.getSiteDateTime($row) | date : \\'shortTime\\''").html();
-      const studyName = $(this).find("span[data-ng-bind$='row.study'").html();
-      const visitType = $(this).find("span[data-ng-bind^='vm.getValue($row.studyId,\\'Visit\\''").html();
-
-
-
-      if(studyName) {
-        const time = Date.parse("Jul 8, 2005, "+timeString);
-        console.log(timeSolver.getString(time, "HH:MM:SS"));
-
-        const insideTimeframe = (timeSolver.after(time, startTimeTime, "min") &&  timeSolver.before(time, endTimeTime, "min"))
-
-        const blockedStuby = ( (studyName.includes("ESKET") && visitType.includes("Scrn 1")) || studyName.includes("CNTO") );
-        if (!blockedStuby && insideTimeframe == true) {
-
-          results.push( $(this));
-        }
-
-      }
-
-
-
-
-  });
-
-  const selectedStudy = results[0];
-  console.log(selectedStudy);
-  console.log(selectedStudy.children("td:last a"));
-
-
-});
-
-</script>
-
+<head>
+  <title>p2</title>
+</head>
 <section>
 
 <command-button class="fa-save">
-
+SAVE
 </command-button>
 </section>
 
