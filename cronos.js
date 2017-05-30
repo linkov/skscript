@@ -3,6 +3,8 @@ var args = system.args;
 
 var startTimeString;
 var endTimeString;
+var startDateString;
+var endDateString;
 
 if (args.length === 1) {
   console.log('Try to pass some arguments when invoking this script!');
@@ -10,12 +12,20 @@ if (args.length === 1) {
 
   startTimeString = args[1];
   endTimeString = args[2];
+
+  if (args[3]) {
+    startDateString = args[3];
+  }
+
+  if (args[4]) {
+    endDateString = args[4];
+  }
 }
 
 
 
 function waitFor(testFx, onReady, timeOutMillis) {
-    var maxtimeOutMillis = timeOutMillis ? timeOutMillis : 3000, //< Default Max Timout is 3s
+    var maxtimeOutMillis = timeOutMillis ? timeOutMillis : 13000, //< Default Max Timout is 3s
         start = new Date().getTime(),
         condition = false,
         interval = setInterval(function() {
@@ -124,95 +134,7 @@ page.onLoadFinished = function(){
                 }, function() {
 
 
-                   page.evaluate(function(start,end) {
-                     const saveButton = $("section").find(".fa-save");
-                     const isSaveButtonPage = (saveButton.length > 0);
-                     var noRecords = $("h3").last().siblings("div").first().children("table").first().children("tbody").children("tr").last().children("td").children("div").hasClass("empty-set-message");
-
-
-                     if (noRecords && !isSaveButtonPage) {
-
-                       console.log(" -= No records, reloading in 2 sec =-");
-                       setTimeout(function(){
-                        location.reload();
-                      },2200);
-
-                    } else {
-
-
-
-                      if(!isSaveButtonPage) {
-                        console.log("/********* All Studies *********************/");
-                        const startTimeTime = Date.parse("Jul 8, 2005, "+start);
-                        const endTimeTime = Date.parse("Jul 8, 2005, "+end);
-
-
-                        var results = [];
-
-
-                        $("#myrequests-list table tbody tr[ng-repeat$='vm.requests']").each(function(index, object){
-
-                            const timeString = $(object).find("span[data-ng-bind*='shortTime']").html();
-                            const studyName = $(object).find("span[data-ng-bind$='row.study']").html();
-                            const visitType = $(object).find("span[data-ng-bind*='Visit']").html();
-
-
-
-                            if(studyName) {
-                              console.log("/********* Study *********************/");
-                              console.log(studyName);
-                              console.log(visitType);
-                              console.log(timeString);
-                              console.log("/********* --------- *********************/");
-
-                              const time = Date.parse("Jul 8, 2005, "+timeString);
-
-                              const insideTimeframe = (timeSolver.after(time, startTimeTime, "min") &&  timeSolver.before(time, endTimeTime, "min"))
-
-                              const blockedStuby = ( ((studyName.search("ESKET") !=-1 && visitType.search("Scrn 1")) != -1 ) || studyName.search("CNTO") !=-1 );
-                              if (!blockedStuby && insideTimeframe == true) {
-
-                                results.push( $(this));
-                              }
-
-                            }
-
-
-
-
-                        });
-
-                        if (results.length > 0) {
-                          const selectedStudy = results[0];
-                          console.log("/********* Filtered Study *********************/");
-                          const timeString = $(selectedStudy).find("span[data-ng-bind*='shortTime']").html();
-                          const studyName = $(selectedStudy).find("span[data-ng-bind$='row.study']").html();
-                          const visitType = $(selectedStudy).find("span[data-ng-bind*='Visit']").html();
-                          console.log(studyName);
-                          console.log(visitType);
-                          console.log(timeString);
-
-                          selectedStudy.find('a[ng-click^="vm.commands.startVisit"]')[0].click();
-                        }
-
-
-
-
-                      } else {
-                        console.log("/********* Saving Item *********************/");
-                        saveButton[0].click();
-
-
-                      }
-
-
-
-
-
-                      }
-
-
-                    },startTimeString,endTimeString);
+                   page.evaluate(performMainLogic,startTimeString,endTimeString,startDateString,endDateString);
 
 
                   });
@@ -249,3 +171,115 @@ page.onLoadFinished = function(){
   }
 
 }
+
+function performMainLogic(start,end) {
+  const saveButton = $("section").find(".fa-save");
+  const isSaveButtonPage = (saveButton.length > 0);
+  var noRecords = $("h3").last().siblings("div").first().children("table").first().children("tbody").children("tr").last().children("td").children("div").hasClass("empty-set-message");
+
+
+  if (noRecords && !isSaveButtonPage) {
+
+    console.log(" -= No records, reloading in 2 sec =-");
+    setTimeout(function(){
+     location.reload();
+   },2200);
+
+ } else {
+
+
+
+   if(!isSaveButtonPage) {
+     console.log("/********* All Studies *********************/");
+     const startTimeTime = Date.parse("Jul 8, 2005, "+start);
+     const endTimeTime = Date.parse("Jul 8, 2005, "+end);
+
+     const startDateTime = Date.parse(dateStart);
+     const endDateTime = Date.parse(dateEnd);
+
+
+     var results = [];
+
+
+     $("#myrequests-list table tbody tr[ng-repeat$='vm.requests']").each(function(index, object){
+
+         const dateString = $(object).find("span[data-ng-bind*='getSiteDateTime']").html();
+         const timeString = $(object).find("span[data-ng-bind*='shortTime']").html();
+         const studyName = $(object).find("span[data-ng-bind$='row.study']").html();
+         const visitType = $(object).find("span[data-ng-bind*='Visit']").html();
+
+
+
+         if(studyName) {
+           console.log("/********* Study *********************/");
+           console.log(studyName);
+           console.log(visitType);
+           console.log(timeString);
+           console.log("/********* --------- *********************/");
+
+           const time = Date.parse("Jul 8, 2005, "+timeString);
+           const date = Date.parse(dateString);
+
+           const insideTimeframe = (timeSolver.after(time, startTimeTime, "min") &&  timeSolver.before(time, endTimeTime, "min"))
+
+           var insideDateframe = true;
+          if (startDateTime && endDateTime) {
+            insideDateframe = (timeSolver.after(date, startDateTime, "d") &&  timeSolver.before(date, endDateTime, "d"))
+          } else if (startDateTime && !endDateTime) {
+              insideDateframe = (timeSolver.after(date, startDateTime, "d"))
+          } else if (!startDateTime && endDateTime) {
+            insideDateframe = (timeSolver.before(date, endDateTime, "d"))
+          } else {
+            insideDateframe = true;
+          }
+
+
+           const blockedStuby = ( ((studyName.search("ESKET") !=-1 && visitType.search("Scrn 1")) != -1 ) || studyName.search("CNTO") !=-1 );
+           if (!blockedStuby && insideTimeframe == true && insideDateframe == true) {
+
+             results.push( $(this));
+           }
+
+         }
+
+
+
+
+     });
+
+     if (results.length > 0) {
+       const selectedStudy = results[0];
+       console.log("/********* Filtered Study *********************/");
+       const timeString = $(selectedStudy).find("span[data-ng-bind*='shortTime']").html();
+       const studyName = $(selectedStudy).find("span[data-ng-bind$='row.study']").html();
+       const visitType = $(selectedStudy).find("span[data-ng-bind*='Visit']").html();
+       console.log(studyName);
+       console.log(visitType);
+       console.log(timeString);
+       console.log("/********* --------- *********************/");
+
+       selectedStudy.find('a[ng-click^="vm.commands.startVisit"]')[0].click();
+     } else {
+       setTimeout(function(){
+        location.reload();
+      },2200);
+     }
+
+
+
+
+   } else {
+     console.log("/********* Saving Item *********************/");
+     saveButton[0].click();
+
+
+   }
+
+
+
+
+
+   }
+
+
+ }
