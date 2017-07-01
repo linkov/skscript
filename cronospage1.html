@@ -1,4 +1,4 @@
-<!-- 
+<!--
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js">
 </script>
 <script type="text/javascript" src="http://sean1093.github.io/lib/js/timeSolver/1.0.6/timeSolver.min.js"></script>
@@ -32,7 +32,7 @@ $( document ).ready(function() {
         console.log(studyName);
         console.log(visitType);
         console.log(timeString);
-        console.log("------");
+        console.log("======");
 
         const time = Date.parse("Jul 8, 2005, "+timeString);
         console.log(timeSolver.getString(time, "HH:MM:SS"));
@@ -61,280 +61,448 @@ $( document ).ready(function() {
 });
 
 </script> -->
-
+<!DOCTYPE html>
+<html>
 <head>
-  <title>p1</title>
+	<title>p1</title>
 </head>
-
-  <body ng-controller="ctrlr" class="ng-scope">
-      <header class="app-header">
-          <a class="fwk-logo flex-container-center" href="/"><span style="float: right;">&nbsp;&nbsp;&nbsp;<i class="fa fa-home fa-3x"></i></span></a>
-          <span style="height:34px; margin-top:10px; color:ghostwhite; white-space: nowrap; padding-left :3px"><span ng-hide="user" class="ng-hide"><i class="fa fa-spinner fa-spin fa-3x"></i></span><span ng-show="user" class=""><span ng-bind="user.firstName" class="ng-binding">AP UK</span> <span ng-bind="user.lastName" class="ng-binding">PO</span> (<span ng-bind="user.userName" class="ng-binding">APieluzek</span>)&nbsp;<a id="linkLogOut" href="/Login/Logout"><i class="fa fa-sign-out"></i></a><br><span style="font-size: x-small;" ng-bind="currentTimeZone" class="ng-binding">Europe/Berlin (+0200)</span></span></span>
-          <section class="notifications-bar">   <notification data-role="error" ng-show="validationService.hasErrors" data-ng-click="validationService.showErrors=!validationService.showErrors" class="ng-hide">       <i class="fa fa-warning"></i>   </notification></section>
-          <section id="command-bar-section" class="command-bar slide ng-isolate-scope" ng-transclude=""><command-button class="fa fa-calendar ng-scope" data-command-label="Availability" scope-id="005" ng-click="vm.commands.goToAvailability.execute(undefined, $event)"></command-button><command-button class="fa fa-refresh ng-scope" data-command-label="Refresh" scope-id="00B" ng-click="vm.commands.refresh.execute(undefined, $event)"></command-button></section>
-      </header>
-      <div ng-class="{'fwk-busy':isBusy}" class="ng-isolate-scope"></div>
-      <main class="fwk-perspective" data-ng-class="{'fwk-busy':app.fwkBusy}">
-          <!-- ngIf: hasNotifications -->
-          <div id="toast-outer-container"></div>
-          <layout type="custom">
-
-
-  <fwk-command-wrapper>
-
-  </fwk-command-wrapper>
-
-  <fwk-blade-container data-blade-container-id="mainBladeContainer" class="ng-isolate-scope"><fwk-blade-more class="fwk-blade-more prev ng-scope" data-ng-class="{'fwk-active-blade': getMoreBladeSize('prev') > 1, open: showThumbnails == 'prev'}" data-ng-click="showThumbnails = 'prev'"><!-- ngRepeat: thumb in prevBladeThumbs --></fwk-blade-more>
-      <fwk-blade data-blade-title="Rater Dashboard" data-blade-command="goToDashboard" class="ng-scope fwk-blade-in-range fwk-active-blade" data-blade-index="1" data-ng-click="activate(1, null, $event)" id="mainBladeContainer-blade-1"><fwk-blade-content class="fwk-blade-content">
-          <!-- fwkCompose: vm.conductor.activeItem --><div data-fwk-compose="vm.conductor.activeItem" class="ng-scope"><fwk-command-wrapper class="ng-scope">
-
-  </fwk-command-wrapper>
-
-  <div class="ng-scope">
-      <layout type="columnar">
-          <div>
-              <h3 class="ng-binding">Accepted Visits</h3>
-              <div fwk-table="" model="vm.visits" ng-show="vm.isPm()" paging-enabled="true" sorting-enabled="true" on-page-select="vm.execAcceptedVisitsPaging(columns, page)" total-items="vm.acceptedVisitsPaging.totalItems" current-page="vm.acceptedVisitsPaging.currentPage" page-size="vm.acceptedVisitsPaging.pageSize" num-pages="vm.acceptedVisitsPaging.numPages" id="myvisits-list" fixed-rows="true" mode="auto" empty-set-message="No records found" class="ng-hide"><table class="table-grid-layout fixed">   <colgroup>       <col class="layout-fixed-left-col" style="width: 0px;">       <col class="layout-content-col">       <col class="layout-fixed-right-col" style="width: 0px;">       <col class="layout-scroll-col" style="width: 0px;">   </colgroup>      <tbody>       <tr>           <td class="row-header-block">               <div class="content-container">               </div>           </td>           <td class="content-block">               <div class="content-container">               <table class="table-grid table-grid-bordered table-grid-striped table-grid-hover">   <colgroup><col><col><col><col><col><col><col><col><col></colgroup> <thead><tr>
-
-
-
-
-
-
-
-
-
-                  <th label="Study" sort-field="StudyId" sortfield="StudyId" class="sortable ng-binding">Study</th><th label="Site" sort-field="Site" sortfield="Site" class="sortable ng-binding">Site</th><th label="Subject" sort-field="SubjectId" sortfield="SubjectId" class="sortable ng-binding">Subject</th><th label="Visit" sort-field="Name" sortfield="Name" class="sortable ng-binding">Visit</th><th label="Language" sort-field="Language" sortfield="Language" class="sortable ng-binding">Language</th><th label="Assigned Rater" sort-field="User" sortfield="User" class="sortable ng-binding">Assigned Rater</th><th label="Rater Date" sort-field="DateTime" sortfield="DateTime" class="sortable ng-binding">Rater Date</th><th label="Site Date" sort-field="DateTime" sortfield="DateTime" class="sortable ng-binding">Site Date</th><th label="Action" class="ng-binding">Action</th></tr></thead> <tbody><!-- ngRepeat: $row in vm.visits --><tr ng-repeat="$row in vm.visits" class="ng-scope">
-
-
-
-
-
-
-
-
-
-                  <td>
-                          <span data-ng-bind="$row.study" class="ng-binding">ESKETINTRD300x</span>
-                      </td><td>
-                          <span data-ng-bind="$row.site" class="ng-binding">A52-PL10003</span>
-                      </td><td>
-                          <span data-ng-bind="$row.subject" class="ng-binding">30480372</span>
-                      </td><td>
-                          <span data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)" class="ng-binding">2.3, Day 8</span>
-                      </td><td>
-                          <span data-ng-bind="vm.getLabelValue($row.language)" class="ng-binding">Polish (Poland) 1</span>
-                      </td><td>
-                          <span data-ng-bind="$row.user" class="ng-binding"></span>
-                      </td><td>
-                          <span title="Time Zone: GMT Standard Time" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">31 May 2017</span>&nbsp;<span title="Time Zone: GMT Standard Time" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" class="ng-binding">5:00 PM</span>&nbsp;<i ng-show="vm.isPastDue($row.dateTime)" class="fa fa-exclamation ng-hide" style="color: red;"></i>
-                      </td><td>
-                          <span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">31 May 2017</span>&nbsp;<span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" class="ng-binding">6:00 PM</span>
-                      </td><td>
-                          <a href="#" class="ng-binding ng-scope" ng-click="vm.commands.startVisit.execute($row.id, $event)">Launch</a>
-                      </td></tr><!-- end ngRepeat: $row in vm.visits --><tr ng-repeat="$row in vm.visits" class="ng-scope">
-
-
-
-
-
-
-
-
-
-                  <td>
-                          <span data-ng-bind="$row.study" class="ng-binding">ESKETINTRD300x</span>
-                      </td><td>
-                          <span data-ng-bind="$row.site" class="ng-binding">A51-PL10011</span>
-                      </td><td>
-                          <span data-ng-bind="$row.subject" class="ng-binding">20481110</span>
-                      </td><td>
-                          <span data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)" class="ng-binding">4.29 Maintenance Week 44 (CRITICAL DATA ENTRY)</span>
-                      </td><td>
-                          <span data-ng-bind="vm.getLabelValue($row.language)" class="ng-binding">Polish (Poland) 1</span>
-                      </td><td>
-                          <span data-ng-bind="$row.user" class="ng-binding"></span>
-                      </td><td>
-                          <span title="Time Zone: GMT Standard Time" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">5 Jun 2017</span>&nbsp;<span title="Time Zone: GMT Standard Time" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" class="ng-binding">10:00 AM</span>&nbsp;<i ng-show="vm.isPastDue($row.dateTime)" class="fa fa-exclamation ng-hide" style="color: red;"></i>
-                      </td><td>
-                          <span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">5 Jun 2017</span>&nbsp;<span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" class="ng-binding">11:00 AM</span>
-                      </td><td>
-                          <a href="#" class="ng-binding ng-scope" ng-click="vm.commands.startVisit.execute($row.id, $event)">Launch</a>
-                      </td></tr><!-- end ngRepeat: $row in vm.visits --><tr ng-repeat="$row in vm.visits" class="ng-scope">
-
-
-
-
-
-
-
-
-
-                  <td>
-                          <span data-ng-bind="$row.study" class="ng-binding">ESKETINTRD300x</span>
-                      </td><td>
-                          <span data-ng-bind="$row.site" class="ng-binding">A52-PL10003</span>
-                      </td><td>
-                          <span data-ng-bind="$row.subject" class="ng-binding">30480346</span>
-                      </td><td>
-                          <span data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)" class="ng-binding">3.12, Optimization Week 15</span>
-                      </td><td>
-                          <span data-ng-bind="vm.getLabelValue($row.language)" class="ng-binding">Polish (Poland) 1</span>
-                      </td><td>
-                          <span data-ng-bind="$row.user" class="ng-binding"></span>
-                      </td><td>
-                          <span title="Time Zone: GMT Standard Time" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">29 May 2017</span>&nbsp;<span title="Time Zone: GMT Standard Time" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" class="ng-binding">8:00 AM</span>&nbsp;<i ng-show="vm.isPastDue($row.dateTime)" class="fa fa-exclamation ng-hide" style="color: red;"></i>
-                      </td><td>
-                          <span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">29 May 2017</span>&nbsp;<span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" class="ng-binding">9:00 AM</span>
-                      </td><td>
-                          <a href="#" class="ng-binding ng-scope" ng-click="vm.commands.startVisit.execute($row.id, $event)">Launch</a>
-                      </td></tr><!-- end ngRepeat: $row in vm.visits --></tbody></table></div>           </td>           <td class="row-tail-block">               <div class="content-container">               </div>           </td>           <td class="y-scroll-block"></td>       </tr>       <!-- ngIf: vm.visits.length === 0 && true -->   </tbody>   <tfoot>       <tr>           <td class="footer-content-block" colspan="4" style="display: table-cell;">
-                  </td>       </tr>       <tr>           <td class="bottomleft-offset-block"></td>           <td class="x-scroll-block">               <div class="x-scroll-container">                  <div class="x-scroll" style="width: 100px;"></div>               </div>           </td>            <td class="bottomright-offset-block" colspan="2"></td>       </tr>       <tr>           <td class="paging-content-block" colspan="4"><div fwk-pagination="" total-items="vm.acceptedVisitsPaging.totalItems" current-page="vm.acceptedVisitsPaging.currentPage" page-size="vm.acceptedVisitsPaging.pageSize" num-pages="vm.acceptedVisitsPaging.numPages" on-page-select="vm.execAcceptedVisitsPaging(columns, page)" class="ng-isolate-scope"><div class="pagination">   <div class="pagination-first disabled" ng-class="{disabled:currentPage <= 1}"></div>   <div class="pagination-prev disabled" ng-class="{disabled:currentPage <= 1}"></div>   <div class="pagination-page">       <input type="text" class="pagination-page" ng-attr-value="Page {{currentPage}} of {{numPages}}" value="Page 1 of 1">   </div>   <div class="pagination-last disabled" ng-class="{disabled:currentPage == numPages}"></div>   <div class="pagination-next disabled" ng-class="{disabled:currentPage == numPages}"></div></div></div></td>        </tr>   </tfoot></table></div>
-
-              <div fwk-table="" model="vm.visits" ng-show="!vm.isPm()" paging-enabled="true" sorting-enabled="true" on-page-select="vm.execAcceptedVisitsPaging(columns, page)" total-items="vm.acceptedVisitsPaging.totalItems" current-page="vm.acceptedVisitsPaging.currentPage" page-size="vm.acceptedVisitsPaging.pageSize" num-pages="vm.acceptedVisitsPaging.numPages" id="myvisits-list" fixed-rows="true" mode="auto" empty-set-message="No records found" class=""><table class="table-grid-layout fixed">   <colgroup>       <col class="layout-fixed-left-col" style="width: 0px;">       <col class="layout-content-col">       <col class="layout-fixed-right-col" style="width: 0px;">       <col class="layout-scroll-col" style="width: 0px;">   </colgroup>      <tbody>       <tr>           <td class="row-header-block">               <div class="content-container">               </div>           </td>           <td class="content-block">               <div class="content-container">               <table class="table-grid table-grid-bordered table-grid-striped table-grid-hover">   <colgroup><col><col><col><col><col><col><col><col></colgroup> <thead><tr>
-
-
-
-
-
-
-
-
-                  <th label="Study" sort-field="StudyId" sortfield="StudyId" class="sortable ng-binding">Study</th><th label="Site" sort-field="Site" sortfield="Site" class="sortable ng-binding">Site</th><th label="Subject" sort-field="SubjectId" sortfield="SubjectId" class="sortable ng-binding">Subject</th><th label="Visit" sort-field="Name" sortfield="Name" class="sortable ng-binding">Visit</th><th label="Language" sort-field="Language" sortfield="Language" class="sortable ng-binding">Language</th><th label="Rater Date" sort-field="DateTime" sortfield="DateTime" class="sortable ng-binding">Rater Date</th><th label="Site Date" sort-field="DateTime" sortfield="DateTime" class="sortable ng-binding">Site Date</th><th label="Action" class="ng-binding">Action</th></tr></thead> <tbody><!-- ngRepeat: $row in vm.visits --><tr ng-repeat="$row in vm.visits" class="ng-scope">
-
-
-
-
-
-
-
-
-                  <td>
-                          <span data-ng-bind="$row.study" class="ng-binding">ESKETINTRD300x</span>
-                      </td><td>
-                          <span data-ng-bind="$row.site" class="ng-binding">A52-PL10003</span>
-                      </td><td>
-                          <span data-ng-bind="$row.subject" class="ng-binding">30480372</span>
-                      </td><td>
-                          <span data-ng-bind="vm.getValue( $row.studyId,'Visit',$row.name, $row.blindToSiteIRs)" class="ng-binding">2.3, Day 8</span>
-                      </td><td>
-                          <span data-ng-bind="vm.getLabelValue($row.language)" class="ng-binding">Polish (Poland) 1</span>
-                      </td><td>
-                          <span title="Time Zone: GMT Standard Time" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">31 May 2017</span>&nbsp;<span title="Time Zone: GMT Standard Time" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" class="ng-binding">5:00 PM</span>
-                      </td><td>
-                          <span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">31 May 2017</span>&nbsp;<span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" class="ng-binding">6:00 PM</span>
-                      </td><td>
-                          <a href="#" class="ng-binding ng-scope" ng-click="vm.commands.startVisit.execute($row.id, $event)">Launch</a>
-                      </td></tr><!-- end ngRepeat: $row in vm.visits --><tr ng-repeat="$row in vm.visits" class="ng-scope">
-
-
-
-
-
-
-
-
-                  <td>
-                          <span data-ng-bind="$row.study" class="ng-binding">ESKETINTRD300x</span>
-                      </td><td>
-                          <span data-ng-bind="$row.site" class="ng-binding">A51-PL10011</span>
-                      </td><td>
-                          <span data-ng-bind="$row.subject" class="ng-binding">20481110</span>
-                      </td><td>
-                          <span data-ng-bind="vm.getValue( $row.studyId,'Visit',$row.name, $row.blindToSiteIRs)" class="ng-binding">4.29 Maintenance Week 44 (CRITICAL DATA ENTRY)</span>
-                      </td><td>
-                          <span data-ng-bind="vm.getLabelValue($row.language)" class="ng-binding">Polish (Poland) 1</span>
-                      </td><td>
-                          <span title="Time Zone: GMT Standard Time" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">5 Jun 2017</span>&nbsp;<span title="Time Zone: GMT Standard Time" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" class="ng-binding">10:00 AM</span>
-                      </td><td>
-                          <span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">5 Jun 2017</span>&nbsp;<span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" class="ng-binding">11:00 AM</span>
-                      </td><td>
-                          <a href="#" class="ng-binding ng-scope" ng-click="vm.commands.startVisit.execute($row.id, $event)">Launch</a>
-                      </td></tr><!-- end ngRepeat: $row in vm.visits --><tr ng-repeat="$row in vm.visits" class="ng-scope">
-
-
-
-
-
-
-
-
-                  <td>
-                          <span data-ng-bind="$row.study" class="ng-binding">ESKETINTRD300x</span>
-                      </td><td>
-                          <span data-ng-bind="$row.site" class="ng-binding">A52-PL10003</span>
-                      </td><td>
-                          <span data-ng-bind="$row.subject" class="ng-binding">30480346</span>
-                      </td><td>
-                          <span data-ng-bind="vm.getValue( $row.studyId,'Visit',$row.name, $row.blindToSiteIRs)" class="ng-binding">3.12, Optimization Week 15</span>
-                      </td><td>
-                          <span data-ng-bind="vm.getLabelValue($row.language)" class="ng-binding">Polish (Poland) 1</span>
-                      </td><td>
-                          <span title="Time Zone: GMT Standard Time" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">29 May 2017</span>&nbsp;<span title="Time Zone: GMT Standard Time" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" class="ng-binding">8:00 AM</span>
-                      </td><td>
-                          <span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">29 May 2017</span>&nbsp;<span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" class="ng-binding">9:00 AM</span>
-                      </td><td>
-                          <a href="#" class="ng-binding ng-scope" ng-click="vm.commands.startVisit.execute($row.id, $event)">Launch</a>
-                      </td></tr><!-- end ngRepeat: $row in vm.visits --></tbody></table></div>           </td>           <td class="row-tail-block">               <div class="content-container">               </div>           </td>           <td class="y-scroll-block"></td>       </tr>       <!-- ngIf: vm.visits.length === 0 && true -->   </tbody>   <tfoot>       <tr>           <td class="footer-content-block" colspan="4" style="display: table-cell;">
-                  </td>       </tr>       <tr>           <td class="bottomleft-offset-block"></td>           <td class="x-scroll-block">               <div class="x-scroll-container" style="display: none;">                  <div class="x-scroll"></div>               </div>           </td>            <td class="bottomright-offset-block" colspan="2"></td>       </tr>       <tr>           <td class="paging-content-block" colspan="4"><div fwk-pagination="" total-items="vm.acceptedVisitsPaging.totalItems" current-page="vm.acceptedVisitsPaging.currentPage" page-size="vm.acceptedVisitsPaging.pageSize" num-pages="vm.acceptedVisitsPaging.numPages" on-page-select="vm.execAcceptedVisitsPaging(columns, page)" class="ng-isolate-scope"><div class="pagination">   <div class="pagination-first disabled" ng-class="{disabled:currentPage <= 1}"></div>   <div class="pagination-prev disabled" ng-class="{disabled:currentPage <= 1}"></div>   <div class="pagination-page">       <input type="text" class="pagination-page" ng-attr-value="Page {{currentPage}} of {{numPages}}" value="Page 1 of 1">   </div>   <div class="pagination-last disabled" ng-class="{disabled:currentPage == numPages}"></div>   <div class="pagination-next disabled" ng-class="{disabled:currentPage == numPages}"></div></div></div></td>        </tr>   </tfoot></table></div>
-          </div>
-      </layout>
-  </div>
-  <div class="ng-scope">
-      <layout type="columnar">
-          <div>
-              <h3 class="ng-binding">Pending Requests</h3>
-              <div fwk-table="" model="vm.requests" paging-enabled="true" sorting-enabled="true" on-page-select="vm.execPendingRequestPaging(columns, page)" total-items="vm.pendingRequestPaging.totalItems" current-page="vm.pendingRequestPaging.currentPage" page-size="vm.pendingRequestPaging.pageSize" num-pages="vm.pendingRequestPaging.numPages" id="myrequests-list" fixed-rows="true" mode="auto" empty-set-message="No records found"><table class="table-grid-layout fixed">   <colgroup>       <col class="layout-fixed-left-col" style="width: 0px;">       <col class="layout-content-col">       <col class="layout-fixed-right-col" style="width: 0px;">       <col class="layout-scroll-col" style="width: 0px;">   </colgroup>      <tbody>       <tr>           <td class="row-header-block">               <div class="content-container">               </div>           </td>           <td class="content-block">               <div class="content-container">               <table class="table-grid table-grid-bordered table-grid-striped table-grid-hover">   <colgroup><col><col><col><col><col><col><col><col></colgroup> <thead><tr>
-
-
-
-
-
-
-
-
-                  <th label="Study" sort-field="StudyId" sortfield="StudyId" class="sortable ng-binding">Study</th><th label="Site" sort-field="Site" sortfield="Site" class="sortable ng-binding">Site</th><th label="Subject" sort-field="SubjectId" sortfield="SubjectId" class="sortable ng-binding">Subject</th><th label="Visit" sort-field="Name" sortfield="Name" class="sortable ng-binding">Visit</th><th label="Language" sort-field="Language" sortfield="Language" class="sortable ng-binding">Language</th><th label="My Time" sort-field="DateTime" sortfield="DateTime" class="sortable ng-binding">My Time</th><th label="Site Date" sort-field="DateTime" sortfield="DateTime" class="sortable ng-binding">Site Date</th><th label="Action" class="ng-binding">Action</th></tr></thead> <tbody><!-- ngRepeat: $row in vm.requests --><tr ng-repeat="$row in vm.requests" class="ng-scope">
-
-
-
-
-
-
-
-
-                  <td>
-                          <span data-ng-bind="$row.study" class="ng-binding">ESKETINTRD300x</span>
-                      </td><td>
-                          <span data-ng-bind="$row.site" class="ng-binding">A51-PL10012</span>
-                      </td><td>
-                          <span data-ng-bind="$row.subject" class="ng-binding">20481203</span>
-                      </td><td>
-                          <span data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)" class="ng-binding">4.29 Maintenance Week 44 (CRITICAL DATA ENTRY)</span>
-                      </td><td>
-                          <span data-ng-bind="vm.getLabelValue($row.language)" class="ng-binding">Polish (Poland) 1</span>
-                      </td><td>
-                          <span data-ng-bind="$row.dateTime | date: 'd MMM yyyy'" class="ng-binding">29 May 2017</span>&nbsp;<span data-ng-bind="$row.dateTime | date : 'shortTime'" class="ng-binding">10:00 AM</span>&nbsp;<i ng-show="vm.isPastDue($row.dateTime)" class="fa fa-exclamation ng-hide" style="color: red;"></i>
-                      </td><td>
-                          <span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" class="ng-binding">29 May 2017</span>&nbsp;<span title="Time Zone: Central European Standard Time" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" class="ng-binding">10:00 AM</span>
-                      </td><td>
-                          <a href="file:///Users/linkov/Documents/sdwr/skscript/cronospage2.html" ng-click="vm.commands.startVisit.execute($row.id, $event)" class="ng-scope"><span class="ng-binding">Accept</span></a>
-                      </td></tr><!-- end ngRepeat: $row in vm.requests --></tbody></table></div>           </td>           <td class="row-tail-block">               <div class="content-container">               </div>           </td>           <td class="y-scroll-block"></td>       </tr>       <!-- ngIf: vm.requests.length === 0 && true -->   </tbody>   <tfoot>       <tr>           <td class="footer-content-block" colspan="4" style="display: table-cell;">
-                  </td>       </tr>       <tr>           <td class="bottomleft-offset-block"></td>           <td class="x-scroll-block">               <div class="x-scroll-container" style="display: none;">                  <div class="x-scroll"></div>               </div>           </td>            <td class="bottomright-offset-block" colspan="2"></td>       </tr>       <tr>           <td class="paging-content-block" colspan="4"><div fwk-pagination="" total-items="vm.pendingRequestPaging.totalItems" current-page="vm.pendingRequestPaging.currentPage" page-size="vm.pendingRequestPaging.pageSize" num-pages="vm.pendingRequestPaging.numPages" on-page-select="vm.execPendingRequestPaging(columns, page)" class="ng-isolate-scope"><div class="pagination">   <div class="pagination-first disabled" ng-class="{disabled:currentPage <= 1}"></div>   <div class="pagination-prev disabled" ng-class="{disabled:currentPage <= 1}"></div>   <div class="pagination-page">       <input type="text" class="pagination-page" ng-attr-value="Page {{currentPage}} of {{numPages}}" value="Page 1 of 1">   </div>   <div class="pagination-last disabled" ng-class="{disabled:currentPage == numPages}"></div>   <div class="pagination-next disabled" ng-class="{disabled:currentPage == numPages}"></div></div></div></td>        </tr>   </tfoot></table></div>
-          </div>
-      </layout>
-  </div></div>
-      </fwk-blade-content></fwk-blade>
-      <fwk-blade data-blade-title="Visit Details" data-blade-command="goToViewDetails" data-blade-index="2" data-ng-click="activate(2, null, $event)" id="mainBladeContainer-blade-2" class="ng-scope fwk-blade-in-range fwk-blade-nextmainBladeContainer"><fwk-blade-content class="fwk-blade-content"></fwk-blade-content></fwk-blade>
-      <fwk-blade data-blade-title="Visit Request" data-blade-command="goToViewRequests" data-blade-index="3" data-ng-click="activate(3, null, $event)" id="mainBladeContainer-blade-3" class="ng-scope fwk-blade-in-range fwk-blade-nextmainBladeContainer"><fwk-blade-content class="fwk-blade-content"></fwk-blade-content></fwk-blade>
-      <fwk-blade data-blade-title="Availability" data-blade-command="goToAvailability" data-blade-index="4" data-ng-click="activate(4, null, $event)" id="mainBladeContainer-blade-4" class="ng-scope fwk-blade-in-range fwk-blade-nextmainBladeContainer"><fwk-blade-content class="fwk-blade-content"></fwk-blade-content></fwk-blade>
-
-  <fwk-blade-more class="blade-more next ng-scope" data-ng-class="{'fwk-active-blade': getMoreBladeSize('next') > 1, open: showThumbnails == 'next'}" data-ng-click="showThumbnails = 'next'"><!-- ngRepeat: thumb in nextBladeThumbs --></fwk-blade-more></fwk-blade-container>
-
-
-
-          </layout>
-      </main>
-
-
-
-  </body>
+<body class="ng-scope">
+	<header class="app-header">
+		<a class="fwk-logo flex-container-center" href="/"><span style="float: right;">&nbsp;&nbsp;&nbsp;<i class="fa fa-home fa-3x"></i></span></a> <span style="height:34px; margin-top:10px; color:ghostwhite; white-space: nowrap; padding-left :3px"><span class="ng-hide"><i class="fa fa-spinner fa-spin fa-3x"></i></span><span class=""><span class="ng-binding">AP UK</span> <span class="ng-binding">PO</span> (<span class="ng-binding">APieluzek</span>)&nbsp;<a href="/Login/Logout" id="linkLogOut"><i class="fa fa-sign-out"></i></a><br>
+		<span class="ng-binding" style="font-size: x-small;">Europe/Berlin (+0200)</span></span></span>
+		<section class="notifications-bar">
+			<i class="fa fa-warning"></i>
+		</section>
+		<section class="command-bar slide ng-isolate-scope" id="command-bar-section"></section>
+	</header>
+	<div class="ng-isolate-scope"></div>
+	<main class="fwk-perspective" data-ng-class="{'fwk-busy':app.fwkBusy}">
+		<!-- ngIf: hasNotifications -->
+		<div id="toast-outer-container"></div><!-- ngRepeat: thumb in prevBladeThumbs --><!-- fwkCompose: vm.conductor.activeItem -->
+		<div class="ng-scope" data-fwk-compose="vm.conductor.activeItem">
+			<div class="ng-scope">
+
+				<div>
+						<h3 class="ng-binding">Accepted Visits</h3>
+						<div class="ng-hide" id="myvisits-list">
+							<table class="table-grid-layout fixed">
+								<colgroup>
+									<col class="layout-fixed-left-col" style="width: 0px;">
+									<col class="layout-content-col">
+									<col class="layout-fixed-right-col" style="width: 0px;">
+									<col class="layout-scroll-col" style="width: 0px;">
+								</colgroup>
+								<tbody>
+									<tr>
+										<td class="row-header-block">
+											<div class="content-container"></div>
+										</td>
+										<td class="content-block">
+											<div class="content-container">
+												<table class="table-grid table-grid-bordered table-grid-striped table-grid-hover">
+													<colgroup>
+														<col>
+														<col>
+														<col>
+														<col>
+														<col>
+														<col>
+														<col>
+														<col>
+														<col>
+													</colgroup>
+													<thead>
+														<tr>
+															<th class="sortable ng-binding">Study</th>
+															<th class="sortable ng-binding">Site</th>
+															<th class="sortable ng-binding">Subject</th>
+															<th class="sortable ng-binding">Visit</th>
+															<th class="sortable ng-binding">Language</th>
+															<th class="sortable ng-binding">Assigned Rater</th>
+															<th class="sortable ng-binding">Rater Date</th>
+															<th class="sortable ng-binding">Site Date</th>
+															<th class="ng-binding">Action</th>
+														</tr>
+													</thead>
+													<tbody>
+														<!-- ngRepeat: $row in vm.visits -->
+														<tr class="ng-scope">
+															<td><span class="ng-binding" data-ng-bind="$row.study">ESKETINTRD300x</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.site">A52-PL10004</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.subject">30480410</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)">2.7, Day 22</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getLabelValue($row.language)">Polish (Poland) 1</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.user"></span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: GMT Standard Time">18 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" title="Time Zone: GMT Standard Time">2:00 PM</span>&nbsp;<i class="fa fa-exclamation ng-hide" style="color: red;"></i></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: Central European Standard Time">18 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" title="Time Zone: Central European Standard Time">3:00 PM</span></td>
+															<td>
+																<a class="ng-binding ng-scope" href="file:///Users/linkov/Documents/sdwr/skscript/cronospage2.html">Launch</a>
+															</td>
+														</tr><!-- end ngRepeat: $row in vm.visits -->
+														<tr class="ng-scope">
+															<td><span class="ng-binding" data-ng-bind="$row.study">ESKETINTRD300x</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.site">A51-PL10011</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.subject">20481110</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)">4.31 Maintenance Week 46</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getLabelValue($row.language)">Polish (Poland) 1</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.user"></span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: GMT Standard Time">19 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" title="Time Zone: GMT Standard Time">10:00 AM</span>&nbsp;<i class="fa fa-exclamation ng-hide" style="color: red;"></i></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: Central European Standard Time">19 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" title="Time Zone: Central European Standard Time">11:00 AM</span></td>
+															<td>
+																<a class="ng-binding ng-scope" href="file:///Users/linkov/Documents/sdwr/skscript/cronospage2.html">Launch</a>
+															</td>
+														</tr><!-- end ngRepeat: $row in vm.visits -->
+														<tr class="ng-scope">
+															<td><span class="ng-binding" data-ng-bind="$row.study">ESKETINTRD300x</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.site">A52-PL10017</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.subject">30481704</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)">4.23 Maintenance Week 38</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getLabelValue($row.language)">Polish</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.user"></span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: GMT Standard Time">14 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" title="Time Zone: GMT Standard Time">3:00 PM</span>&nbsp;<i class="fa fa-exclamation ng-hide" style="color: red;"></i></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: Central European Standard Time">14 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" title="Time Zone: Central European Standard Time">4:00 PM</span></td>
+															<td>
+																<a class="ng-binding ng-scope" href="file:///Users/linkov/Documents/sdwr/skscript/cronospage2.html">Launch</a>
+															</td>
+														</tr><!-- end ngRepeat: $row in vm.visits -->
+														<tr class="ng-scope">
+															<td><span class="ng-binding" data-ng-bind="$row.study">ESKETINTRD300x</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.site">A52-PL10003</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.subject">30480328</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)">4.19 Maintenance Week 34</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getLabelValue($row.language)">Polish (Poland) 1</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.user"></span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: GMT Standard Time">19 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" title="Time Zone: GMT Standard Time">9:00 AM</span>&nbsp;<i class="fa fa-exclamation ng-hide" style="color: red;"></i></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: Central European Standard Time">19 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" title="Time Zone: Central European Standard Time">10:00 AM</span></td>
+															<td>
+																<a class="ng-binding ng-scope" href="file:///Users/linkov/Documents/sdwr/skscript/cronospage2.html">Launch</a>
+															</td>
+														</tr><!-- end ngRepeat: $row in vm.visits -->
+														<tr class="ng-scope">
+															<td><span class="ng-binding" data-ng-bind="$row.study">ESKETINTRD300x</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.site">A52-PL10022</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.subject">30482203</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)">5.2, Follow Up</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getLabelValue($row.language)">Polish</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.user"></span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: GMT Standard Time">14 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" title="Time Zone: GMT Standard Time">4:30 PM</span>&nbsp;<i class="fa fa-exclamation ng-hide" style="color: red;"></i></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: Central European Standard Time">14 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" title="Time Zone: Central European Standard Time">5:30 PM</span></td>
+															<td>
+																<a class="ng-binding ng-scope" href="file:///Users/linkov/Documents/sdwr/skscript/cronospage2.html">Launch</a>
+															</td>
+														</tr><!-- end ngRepeat: $row in vm.visits -->
+														<tr class="ng-scope">
+															<td><span class="ng-binding" data-ng-bind="$row.study">ESKETINTRD300x</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.site">A51-PL10011</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.subject">20481113</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)">4.3, Maintenance Week 18</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getLabelValue($row.language)">Polish (Poland) 1</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.user"></span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: GMT Standard Time">16 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" title="Time Zone: GMT Standard Time">8:15 AM</span>&nbsp;<i class="fa fa-exclamation ng-hide" style="color: red;"></i></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: Central European Standard Time">16 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" title="Time Zone: Central European Standard Time">9:15 AM</span></td>
+															<td>
+																<a class="ng-binding ng-scope" href="file:///Users/linkov/Documents/sdwr/skscript/cronospage2.html">Launch</a>
+															</td>
+														</tr><!-- end ngRepeat: $row in vm.visits -->
+														<tr class="ng-scope">
+															<td><span class="ng-binding" data-ng-bind="$row.study">ESKETINTRD300x</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.site">A51-PL10011</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.subject">20481114</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)">4.2, Maintenance Week 17</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getLabelValue($row.language)">Polish (Poland) 1</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.user"></span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: GMT Standard Time">23 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" title="Time Zone: GMT Standard Time">8:15 AM</span>&nbsp;<i class="fa fa-exclamation ng-hide" style="color: red;"></i></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: Central European Standard Time">23 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" title="Time Zone: Central European Standard Time">9:15 AM</span></td>
+															<td>
+																<a class="ng-binding ng-scope" href="file:///Users/linkov/Documents/sdwr/skscript/cronospage2.html">Launch</a>
+															</td>
+														</tr><!-- end ngRepeat: $row in vm.visits -->
+														<tr class="ng-scope">
+															<td><span class="ng-binding" data-ng-bind="$row.study">ESKETINTRD300x</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.site">A52-PL10016</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.subject">30481601</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)">2.9, Day 28 [CRITICAL DATA ENTRY]</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getLabelValue($row.language)">Polish (Poland) 1</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.user"></span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: GMT Standard Time">21 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" title="Time Zone: GMT Standard Time">11:00 AM</span>&nbsp;<i class="fa fa-exclamation ng-hide" style="color: red;"></i></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: Central European Standard Time">21 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" title="Time Zone: Central European Standard Time">12:00 PM</span></td>
+															<td>
+																<a class="ng-binding ng-scope" href="file:///Users/linkov/Documents/sdwr/skscript/cronospage2.html">Launch</a>
+															</td>
+														</tr><!-- end ngRepeat: $row in vm.visits -->
+														<tr class="ng-scope">
+															<td><span class="ng-binding" data-ng-bind="$row.study">ESKETINTRD300x</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.site">A52-PL10016</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.subject">30481603</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)">1.3, Scrn 3 [CRITICAL DATA ENTRY]</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getLabelValue($row.language)">Polish (Poland) 1</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.user"></span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: GMT Standard Time">16 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" title="Time Zone: GMT Standard Time">10:00 AM</span>&nbsp;<i class="fa fa-exclamation ng-hide" style="color: red;"></i></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: Central European Standard Time">16 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" title="Time Zone: Central European Standard Time">11:00 AM</span></td>
+															<td>
+																<a class="ng-binding ng-scope" href="file:///Users/linkov/Documents/sdwr/skscript/cronospage2.html">Launch</a>
+															</td>
+														</tr><!-- end ngRepeat: $row in vm.visits -->
+														<tr class="ng-scope">
+															<td><span class="ng-binding" data-ng-bind="$row.study">ESKETINTRD300x</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.site">A51-PL10011</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.subject">20481122</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)">3.9, Optimization Week 12 [CRITICAL DATA ENTRY]</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getLabelValue($row.language)">Polish (Poland) 1</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.user"></span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: GMT Standard Time">14 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" title="Time Zone: GMT Standard Time">8:15 AM</span>&nbsp;<i class="fa fa-exclamation ng-hide" style="color: red;"></i></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: Central European Standard Time">14 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" title="Time Zone: Central European Standard Time">9:15 AM</span></td>
+															<td>
+																<a class="ng-binding ng-scope" href="file:///Users/linkov/Documents/sdwr/skscript/cronospage2.html">Launch</a>
+															</td>
+														</tr><!-- end ngRepeat: $row in vm.visits -->
+													</tbody>
+												</table>
+											</div>
+										</td>
+										<td class="row-tail-block">
+											<div class="content-container"></div>
+										</td>
+										<td class="y-scroll-block"></td>
+									</tr><!-- ngIf: vm.visits.length === 0 && true -->
+								</tbody>
+								<tfoot>
+									<tr>
+										<td class="footer-content-block" colspan="4" style="display: table-cell;"></td>
+									</tr>
+									<tr>
+										<td class="bottomleft-offset-block"></td>
+										<td class="x-scroll-block">
+											<div class="x-scroll-container">
+												<div class="x-scroll" style="width: 100px;"></div>
+											</div>
+										</td>
+										<td class="bottomright-offset-block" colspan="2"></td>
+									</tr>
+									<tr>
+										<td class="paging-content-block" colspan="4">
+											<div class="ng-isolate-scope">
+												<div class="pagination">
+													<div class="pagination-first disabled"></div>
+													<div class="pagination-prev disabled"></div>
+													<div class="pagination-page">
+														<input class="pagination-page" type="text" value="Page 1 of 2">
+													</div>
+													<div class="pagination-last"></div>
+													<div class="pagination-next"></div>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+						<div class="" id="myvisits-list">
+							<table class="table-grid-layout fixed">
+								<colgroup>
+									<col class="layout-fixed-left-col" style="width: 0px;">
+									<col class="layout-content-col">
+									<col class="layout-fixed-right-col" style="width: 0px;">
+									<col class="layout-scroll-col" style="width: 0px;">
+								</colgroup>
+								<tbody>
+									<tr>
+										<td class="row-header-block">
+											<div class="content-container"></div>
+										</td>
+										<td class="content-block">
+											<div class="content-container">
+												<table class="table-grid table-grid-bordered table-grid-striped table-grid-hover">
+													<colgroup>
+														<col>
+														<col>
+														<col>
+														<col>
+														<col>
+														<col>
+														<col>
+														<col>
+													</colgroup>
+													<thead>
+														<tr>
+															<th class="sortable ng-binding">Study</th>
+															<th class="sortable ng-binding">Site</th>
+															<th class="sortable ng-binding">Subject</th>
+															<th class="sortable ng-binding">Visit</th>
+															<th class="sortable ng-binding">Language</th>
+															<th class="sortable ng-binding">Rater Date</th>
+															<th class="sortable ng-binding">Site Date</th>
+															<th class="ng-binding">Action</th>
+														</tr>
+													</thead>
+													<tbody>
+														<!-- ngRepeat: $row in vm.visits -->
+														<tr class="ng-scope">
+															<td><span class="ng-binding" data-ng-bind="$row.study">ESKETINTRD300x</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.site">A52-PL10004</span></td>
+															<td><span class="ng-binding" data-ng-bind="$row.subject">30480410</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getValue( $row.studyId,'Visit',$row.name, $row.blindToSiteIRs)">2.7, Day 22</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getLabelValue($row.language)">Polish (Poland) 1</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: GMT Standard Time">18 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getRaterDateTime($row) | date : 'shortTime'" title="Time Zone: GMT Standard Time">2:00 PM</span></td>
+															<td><span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: Central European Standard Time">18 Jun 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" title="Time Zone: Central European Standard Time">3:00 PM</span></td>
+															<td>
+																<a class="ng-binding ng-scope" href="#">Launch</a>
+															</td>
+														</tr><!-- end ngRepeat: $row in vm.visits -->
+
+													</tbody>
+												</table>
+											</div>
+										</td>
+										<td class="row-tail-block">
+											<div class="content-container"></div>
+										</td>
+										<td class="y-scroll-block"></td>
+									</tr><!-- ngIf: vm.visits.length === 0 && true -->
+								</tbody>
+								<tfoot>
+									<tr>
+										<td class="footer-content-block" colspan="4" style="display: table-cell;"></td>
+									</tr>
+									<tr>
+										<td class="bottomleft-offset-block"></td>
+										<td class="x-scroll-block">
+											<div class="x-scroll-container" style="display: block;">
+												<div class="x-scroll" style="width: 1125px;"></div>
+											</div>
+										</td>
+										<td class="bottomright-offset-block" colspan="2"></td>
+									</tr>
+									<tr>
+										<td class="paging-content-block" colspan="4">
+											<div class="ng-isolate-scope">
+												<div class="pagination">
+													<div class="pagination-first disabled"></div>
+													<div class="pagination-prev disabled"></div>
+													<div class="pagination-page">
+														<input class="pagination-page" type="text" value="Page 1 of 2">
+													</div>
+													<div class="pagination-last"></div>
+													<div class="pagination-next"></div>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+
+			</div>
+			<div class="ng-scope">
+				<div>
+					<h3 class="ng-binding">Pending Requests</h3>
+					<div id="myrequests-list">
+						<table class="table-grid-layout fixed">
+							<colgroup>
+								<col class="layout-fixed-left-col" style="width: 0px;">
+								<col class="layout-content-col">
+								<col class="layout-fixed-right-col" style="width: 0px;">
+								<col class="layout-scroll-col" style="width: 0px;">
+							</colgroup>
+							<tbody>
+								<tr>
+									<td class="row-header-block">
+										<div class="content-container"></div>
+									</td>
+									<td class="content-block">
+										<div class="content-container">
+											<table class="table-grid table-grid-bordered table-grid-striped table-grid-hover">
+												<colgroup>
+													<col>
+													<col>
+													<col>
+													<col>
+													<col>
+													<col>
+													<col>
+													<col>
+												</colgroup>
+												<thead>
+													<tr>
+														<th class="sortable ng-binding">Study</th>
+														<th class="sortable ng-binding">Site</th>
+														<th class="sortable ng-binding">Subject</th>
+														<th class="sortable ng-binding">Visit</th>
+														<th class="sortable ng-binding">Language</th>
+														<th class="sortable ng-binding">My Time</th>
+														<th class="sortable ng-binding">Site Date</th>
+														<th class="ng-binding">Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<!-- ngRepeat: $row in vm.requests -->
+
+
+
+
+
+                          <tr class="ng-scope">
+														<td><span class="ng-binding" data-ng-bind="$row.study">ESKETINTRD300x</span></td>
+														<td><span class="ng-binding" data-ng-bind="$row.site">A51-PL10012</span></td>
+														<td><span class="ng-binding" data-ng-bind="$row.subject">20481203</span></td>
+														<td><span class="ng-binding" data-ng-bind="vm.getValue($row.studyId,'Visit',$row.name, $row.blindToSiteIRs)">4.29 Maintenance Week 44 (CRITICAL DATA ENTRY)</span></td>
+														<td><span class="ng-binding" data-ng-bind="vm.getLabelValue($row.language)">Polish (Poland) 1</span></td>
+														<td><span class="ng-binding" data-ng-bind="$row.dateTime | date: 'd MMM yyyy'">29 May 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="$row.dateTime | date : 'shortTime'">10:00 AM</span>&nbsp;<i class="fa fa-exclamation ng-hide" style="color: red;"></i></td>
+														<td><span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date: 'd MMM yyyy'" title="Time Zone: Central European Standard Time">29 May 2017</span>&nbsp;<span class="ng-binding" data-ng-bind="vm.getSiteDateTime($row) | date : 'shortTime'" title="Time Zone: Central European Standard Time">10:00 AM</span></td>
+														<td>
+															<a class="ng-scope" href="file:///Users/linkov/Documents/sdwr/skscript/cronospage2.html"><span class="ng-binding">Accept</span></a>
+														</td>
+													</tr><!-- <tr ng-if="vm.requests.length === 0 &amp;&amp; true" class="ng-scope">           <td colspan="4">               <div class="empty-set-message">                   <span class="ng-binding">No records found</span>               </div>           </td>       </tr> -->
+
+
+
+
+
+												</tbody>
+											</table>
+										</div>
+									</td>
+									<td class="row-tail-block">
+										<div class="content-container"></div>
+									</td>
+									<td class="y-scroll-block"></td>
+								</tr><!-- ngIf: vm.requests.length === 0 && true -->
+							</tbody>
+							<tfoot>
+								<tr>
+									<td class="footer-content-block" colspan="4" style="display: table-cell;"></td>
+								</tr>
+								<tr>
+									<td class="bottomleft-offset-block"></td>
+									<td class="x-scroll-block">
+										<div class="x-scroll-container" style="display: none;">
+											<div class="x-scroll"></div>
+										</div>
+									</td>
+									<td class="bottomright-offset-block" colspan="2"></td>
+								</tr>
+								<tr>
+									<td class="paging-content-block" colspan="4">
+										<div class="ng-isolate-scope">
+											<div class="pagination">
+												<div class="pagination-first disabled"></div>
+												<div class="pagination-prev disabled"></div>
+												<div class="pagination-page">
+													<input class="pagination-page" type="text" value="Page 1 of 1">
+												</div>
+												<div class="pagination-last disabled"></div>
+												<div class="pagination-next disabled"></div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div><!-- ngRepeat: thumb in nextBladeThumbs -->
+	</main>
+</body>
+</html>
